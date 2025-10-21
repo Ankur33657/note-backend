@@ -37,7 +37,12 @@ userRouter.post("/login", async (req, res) => {
     if (!isCorrectPassword) return res.status(400).json("Incorrect data");
 
     const token = await jwt.sign({ _id: user._id }, process.env.SECRET_KEY);
-    res.cookie("token", token);
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
 
     res.status(200).json({
       email: user.email,
@@ -50,7 +55,14 @@ userRouter.post("/login", async (req, res) => {
 
 userRouter.get("/logout", async (req, res) => {
   try {
-    res.clearCookie("token", null).json("Logout successfull");
+    res
+      .clearCookie("token", {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
+      })
+
+      .json("Logout successfull");
   } catch (err) {
     res.status(400).json(err.message);
   }
