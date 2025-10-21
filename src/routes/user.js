@@ -61,7 +61,6 @@ userRouter.get("/logout", async (req, res) => {
         secure: true,
         sameSite: "none",
       })
-
       .json("Logout successfull");
   } catch (err) {
     res.status(400).json(err.message);
