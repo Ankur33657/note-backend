@@ -201,32 +201,32 @@ notesRouter.post("/note-public/:id", UserAuth, async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
-notesRouter.post("/edit-note/:id", UserAuth, async (req, res) => {
-  try {
-    const updatedNote = await Notes.findOneAndUpdate(
-      { _id: req.params.id },
-      {
-        $set: {
-          heading: req.body.heading,
-          description: req.body.description,
-          priority: req.body.priority,
-        },
-      },
-      {
-        new: true,
-        runValidators: true,
-      },
-    );
+// notesRouter.post("/edit-note/:id", UserAuth, async (req, res) => {
+//   try {
+//     const updatedNote = await Notes.findOneAndUpdate(
+//       { _id: req.params.id },
+//       {
+//         $set: {
+//           heading: req.body.heading,
+//           description: req.body.description,
+//           priority: req.body.priority,
+//         },
+//       },
+//       {
+//         new: true,
+//         runValidators: true,
+//       },
+//     );
 
-    if (!updatedNote) {
-      return res.status(404).json({ error: "Note not found during update" });
-    }
-    res.status(200).json({
-      message: "Note edited successfully",
-      note: updatedNote,
-    });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
+//     if (!updatedNote) {
+//       return res.status(404).json({ error: "Note not found during update" });
+//     }
+//     res.status(200).json({
+//       message: "Note edited successfully",
+//       note: updatedNote,
+//     });
+//   } catch (err) {
+//     res.status(500).json({ error: err.message });
+//   }
+// });
 module.exports = notesRouter;
